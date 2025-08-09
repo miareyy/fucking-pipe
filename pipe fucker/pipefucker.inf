@@ -1,0 +1,71 @@
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+CatalogFile=pipefucker.cat
+DriverVer=
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+pipefucker_Device_CoInstaller_CopyFiles = 11
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+pipefucker.sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%pipefucker.DeviceDesc%=pipefucker_Device, Root\pipefucker
+
+[pipefucker_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+pipefucker.sys
+
+[pipefucker_Device.NT.Services]
+AddService = pipefucker,%SPSVCINST_ASSOCSERVICE%, pipefucker_Service_Inst
+
+[pipefucker_Service_Inst]
+DisplayName    = %pipefucker.SVCDESC%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\pipefucker.sys
+
+[pipefucker_Device.NT.CoInstallers]
+AddReg=pipefucker_Device_CoInstaller_AddReg
+CopyFiles=pipefucker_Device_CoInstaller_CopyFiles
+
+[pipefucker_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[pipefucker_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[pipefucker_Device.NT.Wdf]
+KmdfService =  pipefucker, pipefucker_wdfsect
+[pipefucker_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="Pipe Fucker Driver"
+ClassName="System"
+DiskName = "Pipe Fucker Installation Disk"
+pipefucker.DeviceDesc = "Pipe Fucker Device"
+pipefucker.SVCDESC = "Pipe Fucker Service"
